@@ -15,15 +15,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 /// <summary>
 /// The PBIL namespace.
 /// </summary>
-namespace EDA.BinaryAlgorithms.PBIL
+namespace EDA.ContinuousAlgorithms
 {
-    using EDA;
-    public class PBIL : BaseBinaryEDA
+    public class PBIL : BaseContinuousEDA
     {
+        protected int mEliteCount;
         protected int mPopSize;
         protected int mDimensionCount;
         
@@ -32,43 +33,44 @@ namespace EDA.BinaryAlgorithms.PBIL
         protected double mMutProb;
         protected double mMutShift;
 
-        public delegate int[] CreateSolutionMethod(object constraints);
+        public delegate double[] CreateSolutionMethod(object constraints);
         protected CreateSolutionMethod mSolutionGenerator;
 
         public PBIL(int pop_size, int dimension_count, int elite_count, CreateSolutionMethod solution_generator, double learnRate = 0.1, double negLearnRate = 0.075, double mutProb = 0.02, double mutShift = 0.05)
         {
             mPopSize = pop_size;
+            mEliteCount = elite_count;
             mDimensionCount = dimension_count;
+        
 
             mLearnRate = learnRate;
             mNegLearnRate = negLearnRate;
             mMutProb = mutProb;
             mMutShift = mutShift;
 
-            mSolutionGenerator = solution_generator;
-            if (mSolutionGenerator == null)
+            mSolutionGenerator=solution_generator;
+            if(mSolutionGenerator == null)
             {
                 throw new NullReferenceException();
             }
         }
 
 
-        public override BinarySolution Minimize(CostEvaluationMethod evaluate, TerminationEvaluationMethod should_terminate, object constraints = null)
+        public override ContinuousSolution Minimize(CostEvaluationMethod evaluate, GradientEvaluationMethod calc_gradient, TerminationEvaluationMethod should_terminate, object constraints = null)
         {
             double? improvement = null;
             int iteration = 0;
 
-
-            BinarySolution[] pop = new BinarySolution[mPopSize];
+            ContinuousSolution[] population = new ContinuousSolution[mPopSize];
 
             double min_fx_0 = double.MaxValue;
-            int[] best_x_0 = null;
+            double[] best_x_0 = null;
             for (int i = 0; i < mPopSize; ++i)
             {
-                int[] x_0 = mSolutionGenerator(constraints);
-                double fx_0 = evaluate(x_0, constraints);
-                BinarySolution solution_0 = new BinarySolution(x_0, fx_0);
-                pop[i] = solution_0;
+                double[] x_0 = mSolutionGenerator(constraints);
+                double fx_0 = evaluate(x_0, mLowerBounds, mUpperBounds, constraints);
+                ContinuousSolution solution_0 = new ContinuousSolution(x_0, fx_0);
+                population[i] = solution_0;
 
                 if (fx_0 < min_fx_0)
                 {
@@ -77,32 +79,45 @@ namespace EDA.BinaryAlgorithms.PBIL
                 }
             }
 
-            BinarySolution best_solution = new BinarySolution(best_x_0, min_fx_0);
+            ContinuousSolution best_solution = new ContinuousSolution(best_x_0, min_fx_0);
 
-            double[] distribution_functions = new double[mDimensionCount];
+            Gaussian[] distribution_functions = new Gaussian[mDimensionCount];
 
-            EstimateDistribution(pop, distribution_functions);
+            for (int i = 0; i < mDimensionCount; ++i)
+            {
+                distribution_functions[i] = new Gaussian();
+            }
+
+            EstimateDistribution(population, distribution_functions);
 
             while (!should_terminate(improvement, iteration))
             {
                 for (int i = 0; i < mPopSize; ++i)
                 {
-                    int[] x_pi = Sample(distribution_functions);
+                    double[] x_pi = Sample(distribution_functions);
 
-                    double fx_pi = evaluate(x_pi, constraints);
+                    double fx_pi = evaluate(x_pi, mLowerBounds, mUpperBounds, constraints);
 
-                    pop[i] = new BinarySolution(x_pi, fx_pi);
+                    population[i] = new ContinuousSolution(x_pi, fx_pi);
                 }
 
-                pop = pop.OrderBy(x => x.Cost).ToArray(); //order by ascending cost
+                population = population.OrderBy(x => x.Cost).ToArray(); //order by ascending cost
 
-                if (best_solution.TryUpdateSolution(pop[0].Values, pop[0].Cost, out improvement))
+                if (best_solution.TryUpdateSolution(population[0].Values, population[0].Cost, out improvement))
                 {
                     OnSolutionUpdated(best_solution, iteration);
                 }
 
-                BinarySolution best_current_solution = pop[0];
-                BinarySolution worst_current_solution = pop[mPopSize - 1];
+                ContinuousSolution[] survived_solutions=new ContinuousSolution[mEliteCount];
+                for(int i=0; i  < mEliteCount; ++i)
+                {
+                    survived_solutions[i]=population[i];
+                }
+
+                EstimateDistribution(survived_solutions, distribution_functions);
+
+                ContinuousSolution best_current_solution = population[0];
+                ContinuousSolution worst_current_solution = population[mPopSize - 1];
 
                 if (best_solution.TryUpdateSolution(best_current_solution.Values, best_current_solution.Cost, out improvement))
                 {
@@ -114,15 +129,15 @@ namespace EDA.BinaryAlgorithms.PBIL
                 {
                     if (best_current_solution.Values[i] == worst_current_solution.Values[i])
                     {
-                        double oldMean = distribution_functions[i];
-                        distribution_functions[i] = oldMean * (1 - mLearnRate) + best_current_solution.Values[i] * mLearnRate;
+                        double oldMean = distribution_functions[i].Mean;
+                        distribution_functions[i].Mean = oldMean * (1 - mLearnRate) + best_current_solution.Values[i] * mLearnRate;
                     }
                     else
                     {
                         double learnRate2 = mLearnRate + mNegLearnRate;
-                        double oldMean = distribution_functions[i];
+                        double oldMean = distribution_functions[i].Mean;
 
-                        distribution_functions[i] = oldMean * (1 - learnRate2) + best_current_solution.Values[i] * learnRate2;
+                        distribution_functions[i].Mean = oldMean * (1 - learnRate2) + best_current_solution.Values[i] * learnRate2;
                     }
                 }
 
@@ -131,9 +146,9 @@ namespace EDA.BinaryAlgorithms.PBIL
                 {
                     if (RandomEngine.NextDouble() < mMutProb)
                     {
-                        double oldMean = distribution_functions[i];
+                        double oldMean = distribution_functions[i].Mean;
 
-                        distribution_functions[i] = oldMean * (1 - mMutShift) +
+                        distribution_functions[i].Mean = oldMean * (1 - mMutShift) +
                                 (RandomEngine.NextBoolean() ? 1 : 0) * mMutShift;
                     }
                 }

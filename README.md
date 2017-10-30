@@ -10,3 +10,5 @@ The current library support optimization problems in which solutions are either 
 * CGA (Compact Genetic Algorithm)
 * BOA (Bayesian Optimization Algorithm)
 * UMDA (Univariate Marginal Distribution Algorithm)
+* Cross Entropy Method
+* MMIC

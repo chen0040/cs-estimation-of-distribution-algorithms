@@ -70,6 +70,13 @@
     <Compile Include="ComponentModels\ISolution.cs" />
     <Compile Include="ComponentModels\MOOSolution.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="ContinuousAlgorithms\BaseContinuousEDA.cs" />
+    <Compile Include="ContinuousAlgorithms\BOA.cs" />
+    <Compile Include="ContinuousAlgorithms\CGA.cs" />
+    <Compile Include="ContinuousAlgorithms\CrossEntropyMethod.cs" />
+    <Compile Include="ContinuousAlgorithms\MIMIC.cs" />
+    <Compile Include="ContinuousAlgorithms\PBIL.cs" />
+    <Compile Include="ContinuousAlgorithms\UMDA.cs" />
     <Compile Include="ContinuousSolution.cs" />
     <Compile Include="ContinuousSolver.cs" />
     <Compile Include="DistributionModel.cs" />
