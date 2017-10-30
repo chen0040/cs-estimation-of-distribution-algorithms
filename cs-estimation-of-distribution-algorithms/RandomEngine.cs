@@ -30,5 +30,11 @@ namespace EDA
         {
             return NextDouble() < 0.5;
         }
+
+        public static bool NextBoolean(double prob)
+        {
+            return NextDouble() < prob;
+        }
+
     }
 }

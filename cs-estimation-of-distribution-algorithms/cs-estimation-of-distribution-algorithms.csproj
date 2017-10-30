@@ -53,10 +53,15 @@
     <Compile Include="AlgorithmModels\Survival\SurvivalInstructionFactory.cs" />
     <Compile Include="AlgorithmModels\Survival\SurvivalInstruction_Compete.cs" />
     <Compile Include="AlgorithmModels\Survival\SurvivalInstruction_Probablistic.cs" />
-    <Compile Include="BaseSolution.cs" />
+    <Compile Include="BaseBinaryEDA.cs" />
+    <Compile Include="BinaryAlgorithms\BaseSolution.cs" />
     <Compile Include="BaseSolver.cs" />
+    <Compile Include="BinaryAlgorithms\BayesianGraph.cs" />
+    <Compile Include="BinaryAlgorithms\BayesianNode.cs" />
     <Compile Include="BinarySolution.cs" />
     <Compile Include="BinarySolver.cs" />
+    <Compile Include="BinaryAlgorithms\BOA.cs" />
+    <Compile Include="BinaryAlgorithms\CGA.cs" />
     <Compile Include="ChiSquare.cs" />
     <Compile Include="ComponentModels\IGPPop.cs" />
     <Compile Include="ComponentModels\IGPSolution.cs" />
@@ -78,8 +83,10 @@
     <Compile Include="Helpers\PolynomialHelper.cs" />
     <Compile Include="ISolver.cs" />
     <Compile Include="LinearAlgebra\MatrixOp.cs" />
+    <Compile Include="MIMIC.cs" />
     <Compile Include="MultiTrajectoryBinarySolver.cs" />
     <Compile Include="MultiTrajectoryContinuousSolver.cs" />
+    <Compile Include="BinaryAlgorithms\PBIL.cs" />
     <Compile Include="ProblemModels\CostFunction.cs" />
     <Compile Include="ProblemModels\IGPEnvironment.cs" />
     <Compile Include="ProblemModels\IGPFitnessCase.cs" />
@@ -118,7 +125,9 @@
     <Compile Include="Statistics\StdDev.cs" />
     <Compile Include="Statistics\TwoWayANOVA.cs" />
     <Compile Include="StudentT.cs" />
+    <Compile Include="BinaryAlgorithms\UMDA.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
