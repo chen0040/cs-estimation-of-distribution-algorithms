@@ -54,6 +54,8 @@
     <Compile Include="AlgorithmModels\Survival\SurvivalInstruction_Compete.cs" />
     <Compile Include="AlgorithmModels\Survival\SurvivalInstruction_Probablistic.cs" />
     <Compile Include="BaseBinaryEDA.cs" />
+    <Compile Include="Benchmarks\CostFunction_RosenbrockSaddle.cs" />
+    <Compile Include="Benchmarks\CostFunction_Sphere.cs" />
     <Compile Include="BinaryAlgorithms\BaseSolution.cs" />
     <Compile Include="BaseSolver.cs" />
     <Compile Include="BinaryAlgorithms\BayesianGraph.cs" />

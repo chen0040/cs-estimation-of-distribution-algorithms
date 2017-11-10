@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-estimation-of-distribution-algorithms", "cs-estimation-of-distribution-algorithms\cs-estimation-of-distribution-algorithms.csproj", "{01E4237C-8BF7-41C0-A88D-ADC0F53AB1C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-estimation-of-distribution-algorithms-samples", "cs-estimation-of-distribution-algorithms-samples\cs-estimation-of-distribution-algorithms-samples.csproj", "{E5D932AC-FF2E-4377-BFF1-18D60B0FDEAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{01E4237C-8BF7-41C0-A88D-ADC0F53AB1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01E4237C-8BF7-41C0-A88D-ADC0F53AB1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01E4237C-8BF7-41C0-A88D-ADC0F53AB1C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5D932AC-FF2E-4377-BFF1-18D60B0FDEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5D932AC-FF2E-4377-BFF1-18D60B0FDEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5D932AC-FF2E-4377-BFF1-18D60B0FDEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5D932AC-FF2E-4377-BFF1-18D60B0FDEAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

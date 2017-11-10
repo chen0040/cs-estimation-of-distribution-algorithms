@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EDA.ProblemModels;
 
 /// <summary>
 /// The PBIL namespace.
@@ -35,6 +36,24 @@ namespace EDA.ContinuousAlgorithms
 
         public delegate double[] CreateSolutionMethod(object constraints);
         protected CreateSolutionMethod mSolutionGenerator;
+
+        public PBIL(int popSize, CostFunction f, double learnRate = 0.1, double negLearnRate = 0.075, double mutProb = 0.02, double mutShift = 0.05)
+        {
+            mPopSize = popSize;
+            mEliteCount = Math.Max(2, (int)(popSize * 0.05));
+            mDimensionCount = f.DimensionCount;
+
+
+            mLearnRate = learnRate;
+            mNegLearnRate = negLearnRate;
+            mMutProb = mutProb;
+            mMutShift = mutShift;
+
+            mSolutionGenerator = (constraints) =>
+            {
+                return f.CreateRandomSolution();
+            };
+        }
 
         public PBIL(int pop_size, int dimension_count, int elite_count, CreateSolutionMethod solution_generator, double learnRate = 0.1, double negLearnRate = 0.075, double mutProb = 0.02, double mutShift = 0.05)
         {
