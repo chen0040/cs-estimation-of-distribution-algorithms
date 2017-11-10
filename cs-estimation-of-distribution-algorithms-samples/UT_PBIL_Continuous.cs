@@ -14,9 +14,7 @@ namespace EDA
         {
             int popSize = 8000;
             PBIL s = new PBIL(popSize, f);
-            
 
-            double[] x_0 = f.CreateRandomSolution();
 
             s.SolutionUpdated += (best_solution, step) =>
             {

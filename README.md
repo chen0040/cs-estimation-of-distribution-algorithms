@@ -12,3 +12,56 @@ The current library support optimization problems in which solutions are either 
 * UMDA (Univariate Marginal Distribution Algorithm)
 * Cross Entropy Method
 * MMIC
+
+# Usage
+
+## Solving Continuous Optimization 
+
+The sample codes below shows how to solve the "Rosenbrock Saddle" continuous optmization problem using PBIL:
+
+```cs
+CostFunction_RosenbrockSaddle f = new CostFunction_RosenbrockSaddle();
+            
+int popSize = 8000;
+PBIL s = new PBIL(popSize, f);
+
+s.SolutionUpdated += (best_solution, step) =>
+{
+	Console.WriteLine("Step {0}: Fitness = {1}", step, best_solution.Cost);
+};
+
+int max_iterations = 200;
+s.Minimize(f, max_iterations);
+```
+
+Where the CostFunction_RosenbrockSaddle is the cost function that is defined as below:
+
+```cs
+public class CostFunction_RosenbrockSaddle : CostFunction
+{
+	public CostFunction_RosenbrockSaddle()
+		: base(2, -2.048, 2.048) // 2 is the dimension of the continuous solution, -2.048 and 2.048 is the lower and upper bounds for the two dimensions 
+	{
+
+	}
+
+	protected override void _CalcGradient(double[] solution, double[] grad) // compute the search gradent given the solution 
+	{
+		double x0 = solution[0];
+		double x1 = solution[1];
+		grad[0] = 400 * (x0 * x0 - x1) * x0 - 2 * (1 - x0);
+		grad[1] = -200 * (x0 * x0 - x1);
+	}
+
+	// Optional: if not overriden, the default gradient esimator will be provided for gradient computation
+	protected override double _Evaluate(double[] solution) // compute the cost of problem given the solution 
+	{
+		double x0 = solution[0];
+		double x1 = solution[1];
+
+		double cost =100 * Math.Pow(x0 * x0 - x1, 2) + Math.Pow(1 - x0, 2);
+		return cost;
+	}
+
+}
+```
