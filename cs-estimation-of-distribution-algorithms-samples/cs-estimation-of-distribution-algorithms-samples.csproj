@@ -45,6 +45,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UT_CrossEntropy_Continuous.cs" />
+    <Compile Include="UT_UMDA_Continuous.cs" />
+    <Compile Include="UT_CGA_Continuous.cs" />
     <Compile Include="UT_PBIL_Continuous.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@ namespace EDA.BinaryAlgorithms
         public delegate int[] CreateSolutionMethod(object constraints);
         protected CreateSolutionMethod mSolutionGenerator;
         
-        public CGA(int n, int dimension_count, int selection_size, CreateSolutionMethod solution_generator)
+        public CGA(int n, int dimension_count, int selection_size, CreateSolutionMethod solution_generator = null)
         {
             m_n = n;
             mDimensionCount = dimension_count;
@@ -25,7 +25,15 @@ namespace EDA.BinaryAlgorithms
             mSolutionGenerator = solution_generator;
             if (mSolutionGenerator == null)
             {
-                throw new NullReferenceException();
+                mSolutionGenerator = (index) =>
+                {
+                    int[] solution = new int[mDimensionCount];
+                    for (int i = 0; i < solution.Length; ++i)
+                    {
+                        solution[i] = RandomEngine.NextBoolean() ? 1 : 0;
+                    }
+                    return solution;
+                };
             }
         }
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EDA.Helpers;
+using EDA.ProblemModels;
 
 namespace EDA.ContinuousAlgorithms
 {
@@ -15,7 +17,18 @@ namespace EDA.ContinuousAlgorithms
 
         public delegate double[] CreateSolutionMethod(object constraints);
         protected CreateSolutionMethod mSolutionGenerator;
-        
+
+        public CGA(int n, CostFunction f)
+        {
+            m_n = n;
+            mDimensionCount = f.DimensionCount;
+
+            mSolutionGenerator = (constraints) =>
+            {
+                return f.CreateRandomSolution();
+            };
+        }
+
         public CGA(int n, int dimension_count, int selection_size, CreateSolutionMethod solution_generator)
         {
             m_n = n;
@@ -46,7 +59,10 @@ namespace EDA.ContinuousAlgorithms
 
             Gaussian[] distribution_probabilities = new Gaussian[mDimensionCount];
 
-            Queue<ContinuousSolution> recent_winners = new Queue<ContinuousSolution>();
+            MinPQ<ContinuousSolution> recent_winners = new MinPQ<ContinuousSolution>((a, b) =>
+            {
+                return b.Cost.CompareTo(a.Cost);
+            }); // DelMin will delete the solution with highest cost
 
             for (int i = 0; i < mDimensionCount; ++i)
             {
@@ -71,11 +87,11 @@ namespace EDA.ContinuousAlgorithms
 
                 ContinuousSolution winner = new ContinuousSolution(x_winner, fx_winner);
 
-                recent_winners.Enqueue(winner);
+                recent_winners.Add(winner);
 
                 if(recent_winners.Count > m_n)
                 {
-                    recent_winners.Dequeue();
+                    recent_winners.DelMin();
                 }
 
                 EstimateDistribution(recent_winners.ToArray(), distribution_probabilities);

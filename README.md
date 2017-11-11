@@ -17,6 +17,8 @@ The current library support optimization problems in which solutions are either 
 
 ## Solving Continuous Optimization 
 
+### Running PBIL 
+
 The sample codes below shows how to solve the "Rosenbrock Saddle" continuous optmization problem using PBIL:
 
 ```cs
@@ -65,3 +67,65 @@ public class CostFunction_RosenbrockSaddle : CostFunction
 
 }
 ```
+
+### Running CGA
+
+The sample codes below shows how to solve the "Rosenbrock Saddle" continuous optmization problem using CGA:
+
+```cs
+CostFunction_RosenbrockSaddle f = new CostFunction_RosenbrockSaddle();
+            
+int n = 1000; // sample size for the distribution 
+CGA s = new CGA(n, f);
+
+s.SolutionUpdated += (best_solution, step) =>
+{
+	Console.WriteLine("Step {0}: Fitness = {1}", step, best_solution.Cost);
+};
+
+int max_iterations = 2000000;
+s.Minimize(f, max_iterations);
+```
+
+### Running UMDA
+
+The sample codes below shows how to solve the "Rosenbrock Saddle" continuous optmization problem using UMDA:
+
+```cs
+CostFunction_RosenbrockSaddle f = new CostFunction_RosenbrockSaddle();
+            
+int popSize = 1000; 
+int selectionSize = 100;
+UMDA s = new UMDA(popSize, selectionSize, f);
+
+s.SolutionUpdated += (best_solution, step) =>
+{
+	Console.WriteLine("Step {0}: Fitness = {1}", step, best_solution.Cost);
+};
+
+int max_iterations = 2000000;
+s.Minimize(f, max_iterations);
+```
+
+### Running CrossEntropyMethod
+
+The sample codes below shows how to solve the "Rosenbrock Saddle" continuous optmization problem using CrossEntropyMethod:
+
+```cs
+CostFunction_RosenbrockSaddle f = new CostFunction_RosenbrockSaddle();
+            
+int sampleSize = 1000; 
+int selectionSize = 100;
+CrossEntropyMethod s = new CrossEntropyMethod(sampleSize, selectionSize, f);
+
+s.SolutionUpdated += (best_solution, step) =>
+{
+	Console.WriteLine("Step {0}: Fitness = {1}", step, best_solution.Cost);
+};
+
+int max_iterations = 2000000;
+s.Minimize(f, max_iterations);
+```
+
+### Running 
+

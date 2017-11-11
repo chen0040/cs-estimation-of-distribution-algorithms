@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EDA;
+using EDA.ProblemModels;
 
 namespace EDA.BinaryAlgorithms
 {
@@ -37,7 +38,8 @@ namespace EDA.BinaryAlgorithms
             set { mPopSize = value; }
         }
 
-        public BOA(int pop_size, int dimension, CreateSolutionMethod solution_generator)
+
+        public BOA(int pop_size, int dimension, CreateSolutionMethod solution_generator= null)
         {
             mPopSize = pop_size;
             mDimension = dimension;
@@ -45,7 +47,15 @@ namespace EDA.BinaryAlgorithms
             mSolutionGenerator = solution_generator;
             if (mSolutionGenerator == null)
             {
-                throw new NullReferenceException();
+                mSolutionGenerator = (index) =>
+                {
+                    int[] solution = new int[mDimension];
+                    for (int i = 0; i < solution.Length; ++i)
+                    {
+                        solution[i] = RandomEngine.NextBoolean() ? 1 : 0;
+                    }
+                    return solution;
+                };
             }
         }
 

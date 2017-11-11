@@ -35,7 +35,7 @@ namespace EDA.BinaryAlgorithms.PBIL
         public delegate int[] CreateSolutionMethod(object constraints);
         protected CreateSolutionMethod mSolutionGenerator;
 
-        public PBIL(int pop_size, int dimension_count, int elite_count, CreateSolutionMethod solution_generator, double learnRate = 0.1, double negLearnRate = 0.075, double mutProb = 0.02, double mutShift = 0.05)
+        public PBIL(int pop_size, int dimension_count, int elite_count, CreateSolutionMethod solution_generator = null, double learnRate = 0.1, double negLearnRate = 0.075, double mutProb = 0.02, double mutShift = 0.05)
         {
             mPopSize = pop_size;
             mDimensionCount = dimension_count;
@@ -48,7 +48,15 @@ namespace EDA.BinaryAlgorithms.PBIL
             mSolutionGenerator = solution_generator;
             if (mSolutionGenerator == null)
             {
-                throw new NullReferenceException();
+                mSolutionGenerator = (index) =>
+                {
+                    int[] solution = new int[mDimensionCount];
+                    for (int i = 0; i < solution.Length; ++i)
+                    {
+                        solution[i] = RandomEngine.NextBoolean() ? 1 : 0;
+                    }
+                    return solution;
+                };
             }
         }
 

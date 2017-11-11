@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EDA.ProblemModels;
 
 namespace EDA.ContinuousAlgorithms
 {
@@ -15,7 +16,16 @@ namespace EDA.ContinuousAlgorithms
         protected int mDimensionCount;
         public delegate double[] CreateSolutionMethod(object constraints);
         protected CreateSolutionMethod mSolutionGenerator;
-        
+
+        public UMDA(int pop_size, int selection_size, CostFunction f)
+        {
+            mPopSize = pop_size;
+            mSelectionSize = selection_size;
+            mDimensionCount = f.DimensionCount;
+
+            mSolutionGenerator = (index) => f.CreateRandomSolution();
+        }
+
         public UMDA(int pop_size, int dimension_count, int selection_size, CreateSolutionMethod solution_generator)
         {
             mPopSize = pop_size;

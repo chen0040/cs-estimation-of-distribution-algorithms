@@ -89,6 +89,7 @@
     <Compile Include="Helpers\Gamma.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\MergeSort.cs" />
+    <Compile Include="Helpers\MinPQ.cs" />
     <Compile Include="Helpers\PolynomialHelper.cs" />
     <Compile Include="ISolver.cs" />
     <Compile Include="LinearAlgebra\MatrixOp.cs" />
