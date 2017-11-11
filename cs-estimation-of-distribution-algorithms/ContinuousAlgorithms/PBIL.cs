@@ -49,6 +49,9 @@ namespace EDA.ContinuousAlgorithms
             mMutProb = mutProb;
             mMutShift = mutShift;
 
+            mLowerBounds = f.LowerBounds;
+            mUpperBounds = f.UpperBounds;
+
             mSolutionGenerator = (constraints) =>
             {
                 return f.CreateRandomSolution();

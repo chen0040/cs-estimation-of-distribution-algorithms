@@ -22,6 +22,8 @@ namespace EDA.ContinuousAlgorithms
         {
             m_n = n;
             mDimensionCount = f.DimensionCount;
+            mLowerBounds = f.LowerBounds;
+            mUpperBounds = f.UpperBounds;
 
             mSolutionGenerator = (constraints) =>
             {

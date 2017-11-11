@@ -11,7 +11,7 @@ The current library support optimization problems in which solutions are either 
 * BOA (Bayesian Optimization Algorithm)
 * UMDA (Univariate Marginal Distribution Algorithm)
 * Cross Entropy Method
-* MMIC
+* MIMIC
 
 # Usage
 
@@ -97,6 +97,25 @@ CostFunction_RosenbrockSaddle f = new CostFunction_RosenbrockSaddle();
 int popSize = 1000; 
 int selectionSize = 100;
 UMDA s = new UMDA(popSize, selectionSize, f);
+
+s.SolutionUpdated += (best_solution, step) =>
+{
+	Console.WriteLine("Step {0}: Fitness = {1}", step, best_solution.Cost);
+};
+
+int max_iterations = 2000000;
+s.Minimize(f, max_iterations);
+```
+
+### Running MIMIC
+
+The sample codes below shows how to solve the "Rosenbrock Saddle" continuous optmization problem using MIMIC:
+
+```cs
+CostFunction_RosenbrockSaddle f = new CostFunction_RosenbrockSaddle();
+            
+int n = 1000; // population size 
+MIMIC s = new MIMIC(n, f);
 
 s.SolutionUpdated += (best_solution, step) =>
 {
@@ -215,4 +234,8 @@ s.Minimize((solution, constraints) =>
 	return cost;
 });
 ```
+
+# TODO
+
+* BOA algorithm still has bugs, will need to be fixed in the future release.
 

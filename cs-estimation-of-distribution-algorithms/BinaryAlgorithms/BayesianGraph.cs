@@ -69,7 +69,8 @@ namespace EDA.BinaryAlgorithms
         public int[] ComputeCountsForEdges(IEnumerable<BinarySolution> pop, List<int> indexes)
         {
             int[] counts = new int[(int)(System.Math.Pow(2, indexes.Count))];
-            List<int> reverse_indexes = new List<int>();
+            int[] reverse_indexes = new int[indexes.Count];
+            
             for (int i = indexes.Count - 1; i >= 0; i--)
             {
                 reverse_indexes[indexes.Count - i - 1] = indexes[i];
@@ -78,7 +79,7 @@ namespace EDA.BinaryAlgorithms
             foreach (BinarySolution s in pop)
             {
                 int index = 0;
-                for (int i = 0; i < reverse_indexes.Count; ++i)
+                for (int i = 0; i < reverse_indexes.Length; ++i)
                 {
                     int v=reverse_indexes[i];
                     index += (s[v] == 1 ? 1 : 0) * ((int)System.Math.Pow(2, i));

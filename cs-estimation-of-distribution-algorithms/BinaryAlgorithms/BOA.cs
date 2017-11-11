@@ -39,9 +39,10 @@ namespace EDA.BinaryAlgorithms
         }
 
 
-        public BOA(int pop_size, int dimension, CreateSolutionMethod solution_generator= null)
+        public BOA(int pop_size, int dimension, int numChildren, CreateSolutionMethod solution_generator= null)
         {
             mPopSize = pop_size;
+            mNumChildren = numChildren;
             mDimension = dimension;
 
             mSolutionGenerator = solution_generator;
@@ -87,11 +88,18 @@ namespace EDA.BinaryAlgorithms
                 }
             }
 
+
+            
+
             BinarySolution best_solution = new BinarySolution(best_x_0, min_fx_0);
+
+            OnSolutionUpdated(best_solution, 0);
 
             while (!should_terminate(improvement, iteration))
             {
                 pop = pop.OrderBy(s => s.Cost).ToArray();
+
+                Console.WriteLine("cost: {0}", pop.Average(s => s.Cost));
 
                 if (best_solution.TryUpdateSolution(pop[0].Values, pop[0].Cost, out improvement))
                 {
@@ -116,6 +124,7 @@ namespace EDA.BinaryAlgorithms
                 }
 
                 OnStepped(best_solution, iteration);
+                
                 iteration++;
             }
 

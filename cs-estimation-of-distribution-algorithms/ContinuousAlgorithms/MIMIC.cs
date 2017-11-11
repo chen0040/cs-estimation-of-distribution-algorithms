@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EDA.ProblemModels;
 
 namespace EDA.ContinuousAlgorithms
 {
@@ -14,20 +15,28 @@ namespace EDA.ContinuousAlgorithms
         public delegate double[] CreateSolutionMethod(object constraints);
         protected CreateSolutionMethod mSolutionGenerator;
         
-        public MIMIC(int pop_size, int dimension_count, int elite_count, CreateSolutionMethod solution_generator)
+        public MIMIC(int pop_size, int dimension_count, int elite_count, CreateSolutionMethod solution_generator = null)
         {
             mPopSize = pop_size;
             mEliteCount = elite_count;
             mDimensionCount = dimension_count;
 
             mSolutionGenerator = solution_generator;
-            if (mSolutionGenerator == null)
-            {
-                throw new NullReferenceException();
-            }
         }
 
+        public MIMIC(int popSize, CostFunction f)
+        {
+            mPopSize = popSize;
+            mEliteCount = Math.Max(2, (int)(popSize * 0.05));
+            mDimensionCount = f.DimensionCount;
+            mLowerBounds = f.LowerBounds;
+            mUpperBounds = f.UpperBounds;
 
+            mSolutionGenerator = (constraints) =>
+            {
+                return f.CreateRandomSolution();
+            };
+        }
 
         public override ContinuousSolution Minimize(CostEvaluationMethod evaluate, GradientEvaluationMethod calc_gradient, TerminationEvaluationMethod should_terminate, object constraints = null)
         {

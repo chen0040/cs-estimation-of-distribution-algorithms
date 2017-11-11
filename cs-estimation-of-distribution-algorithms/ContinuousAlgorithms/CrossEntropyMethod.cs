@@ -22,6 +22,8 @@ namespace EDA.ContinuousAlgorithms
             mSampleCount = pop_size;
             mSelectedSampleCount = selection_size;
             mDimensionCount = f.DimensionCount;
+            mLowerBounds = f.LowerBounds;
+            mUpperBounds = f.UpperBounds;
 
             mSolutionGenerator = (index) => f.CreateRandomSolution();
         }

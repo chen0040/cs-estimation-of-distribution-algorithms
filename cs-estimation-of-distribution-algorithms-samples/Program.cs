@@ -11,11 +11,13 @@ namespace EDA
 
         static void Main(string[] args)
         {
-            UT_UMDA_Binary.RunMain();
+            //UT_BOA_Binary.RunMain();
+            //UT_UMDA_Binary.RunMain();
             //UT_CGA_Binary.RunMain();
             //UT_PBIL_Binary.RunMain();
             //UT_CrossEntropy_Continuous.Run_Sphere();
 
+            UT_MIMIC_Continuous.Run_Sphere();
             //UT_PBIL_Continuous.Run_Sphere();
             //UT_CGA_Continuous.Run_Sphere();
             //UT_UMDA_Continuous.Run_Sphere();
