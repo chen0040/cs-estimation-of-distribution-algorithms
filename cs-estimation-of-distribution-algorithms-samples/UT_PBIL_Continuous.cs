@@ -10,7 +10,7 @@ namespace EDA
 {
     public class UT_PBIL_Continuous
     {
-        public static void Run(CostFunction f, int max_iterations=200)
+        public static void Run(CostFunction f, int max_iterations = 200)
         {
             int popSize = 8000;
             PBIL s = new PBIL(popSize, f);
@@ -30,7 +30,7 @@ namespace EDA
             Run(f);
         }
 
-        public static void RunRosenbrockSaddle(int max_iterations=200)
+        public static void RunRosenbrockSaddle(int max_iterations = 200)
         {
             CostFunction_RosenbrockSaddle f = new CostFunction_RosenbrockSaddle();
             Run(f, max_iterations);

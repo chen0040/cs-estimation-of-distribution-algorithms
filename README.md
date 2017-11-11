@@ -127,5 +127,34 @@ int max_iterations = 2000000;
 s.Minimize(f, max_iterations);
 ```
 
-### Running 
+## Solving Problems with Binary-encoded Solutions 
+
+### Running PBIL 
+
+The samle codes below show how to solve a canonical optimization problem that look for solutions with minimum number of 1 bits in the solution:
+
+```cs 
+int popSize = 8000;
+int dimension = 50;
+int eliteCount = 50;
+PBIL s = new PBIL(popSize, dimension, eliteCount);
+s.MaxIterations = 100;
+
+s.SolutionUpdated += (best_solution, step) =>
+{
+	Console.WriteLine("Step {0}: Fitness = {1}", step, best_solution.Cost);
+};
+
+s.Minimize((solution, constraints) =>
+{
+	// solution is binary-encoded
+	double cost = 0;
+	// minimize the number of 1 bits in the solution
+	for(int i=0; i < solution.Length; ++i)
+	{
+		cost += solution[i]; 
+	}
+	return cost;
+});
+```
 

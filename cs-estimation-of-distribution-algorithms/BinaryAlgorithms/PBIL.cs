@@ -19,7 +19,7 @@ using System.Text;
 /// <summary>
 /// The PBIL namespace.
 /// </summary>
-namespace EDA.BinaryAlgorithms.PBIL
+namespace EDA.BinaryAlgorithms
 {
     using EDA;
     public class PBIL : BaseBinaryEDA

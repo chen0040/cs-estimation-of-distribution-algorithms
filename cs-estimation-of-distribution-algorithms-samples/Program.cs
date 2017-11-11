@@ -11,7 +11,8 @@ namespace EDA
 
         static void Main(string[] args)
         {
-            UT_CrossEntropy_Continuous.Run_Sphere();
+            UT_PBIL_Binary.RunMain();
+            //UT_CrossEntropy_Continuous.Run_Sphere();
 
             //UT_PBIL_Continuous.Run_Sphere();
             //UT_CGA_Continuous.Run_Sphere();
