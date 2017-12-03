@@ -2,6 +2,12 @@
 
 Estimation of Distribution Algorithms implemented in C#
 
+# Install
+
+```bash 
+Install-Package cs-estimation-of-distribution-algorithms -Version 1.0.1
+```
+
 # Features 
 
 The current library support optimization problems in which solutions are either binary-coded or continuous vectors. The algorithms implemented for estimation-of-distribution are listed below:
